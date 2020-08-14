@@ -67,11 +67,15 @@ def main():
     music_names = list(df_60songs['Music'])
 
     for name in music_names:
+        print(name)
+        print('\n')
         music_data = df_60songs[df_60songs['Music'] == name]
         music_token = musicToken(music_data['Text'])
         filtered_tokens = filterMusicText(music_token)
-        print(filtered_tokens)
-
+        fdist = nltk.FreqDist(filtered_tokens)
+        for k,v in fdist.items():
+            linha = k+';'+str(v)+';;;;'
+            print(linha)
         
 
 
