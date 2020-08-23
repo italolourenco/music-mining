@@ -48,26 +48,28 @@ def filterMusicText(text):
 
     return textWithoutSpecialCharacter
 
-
+def calcFreqDist(tokens):
+    freqDist = nltk.FreqDist(filtered_tokens)
+    for k,v in freqDist.items():
+        linha = k+';'+str(v)+';;;;'
+        print(linha)
 
 
 def main():
 
     musicReports = [s60DataSet, s70DataSet, s80DataSet, s90DataSet, s2000DataSet, s2010DataSet]
 
-    music_data = {}
+    for musicDataSet in musicReports:
+        
+        music_data = {}
 
-    df_60songs = pd.read_csv(songs60DataSet, sep=';')
-    music_names = list(df_60songs['Music'])
+        dfMusics = pd.read_csv(musicDataSet, sep=';')
+        musicNames = list(dfMusics['Music'])
 
-    for name in music_names:
-        music_data = df_60songs[df_60songs['Music'] == name]
-        music_token = musicToken(music_data['Text'])
-        filtered_tokens = filterMusicText(music_token)
-        fdist = nltk.FreqDist(filtered_tokens)
-        for k,v in fdist.items():
-            linha = k+';'+str(v)+';;;;'
-            print(linha)
+        for name in musicNames:
+            musicData = dfMusics[dfMusics['Music'] == name]
+            musicToken = musicToken(musicData['Text'])
+            filteredTokens = filterMusicText(musicToken)
         
 
 
