@@ -21,9 +21,9 @@ def musicRemoveStopWords(text):
     stopWords = set(stopwords.words('portuguese'))
     wordsFiltered = []
 
-    for w in text:
-        if w not in stopWords:
-            wordsFiltered.append(w)
+    for word in text:
+        if word not in stopWords:
+            wordsFiltered.append(word)
 
     return wordsFiltered
 
