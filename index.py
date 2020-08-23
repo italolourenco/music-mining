@@ -11,8 +11,19 @@ s90DataSet = "data/musicReport-90.csv"
 s2000DataSet = "data/musicReport-2000.csv"
 s2010DataSet = "data/musicReport-2010.csv"
 
+musicCipher = [
+    'A', 'Ab', 'A#', 'Am', 'A#m', 'Abm',
+    'B', 'Bb', 'Bm', 'Bbm',
+    'C', 'C#', 'Cm', 'C#m',
+    'D', 'Db', 'D#', 'Dm', 'D#m', 'Dbm'
+    'E', 'Eb', 'Em', 'Ebm',
+    'F', 'F#', 'Fm', 'F#m',
+    'G', 'Gb', 'G#', 'Gm', 'G#m', 'Gbm'
+]
+
 
 def musicToken(text):
+
     tokens = word_tokenize(text.values[0])
     return tokens
 
@@ -28,6 +39,7 @@ def musicRemoveStopWords(text):
     return wordsFiltered
 
 def musicRemoveNumbers(text):
+
     regex = re.compile('[-|0-9]')
     filtered = [i for i in text if not regex.match(i)]
     return filtered
@@ -37,6 +49,17 @@ def musicRemoveSpecialCharacter(text):
     regex = re.compile(r'[-./?!,":;()\']')
     filtered = [i for i in text if not regex.match(i)]
     return filtered
+
+def musicRemoveCipher(text):
+
+    wordsFiltered = []
+
+    for word in text:
+        if word not in musicCipher:
+            wordsFiltered.append(word)
+
+    return wordsFiltered
+
 
 def filterMusicText(text):
 
