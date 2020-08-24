@@ -12,13 +12,13 @@ s2000DataSet = "data/musicReport-2000.csv"
 s2010DataSet = "data/musicReport-2010.csv"
 
 musicCipher = [
-    'A', 'Ab', 'A#', 'Am', 'A#m', 'Abm',
-    'B', 'Bb', 'Bm', 'Bbm',
-    'C', 'C#', 'Cm', 'C#m',
-    'D', 'Db', 'D#', 'Dm', 'D#m', 'Dbm'
-    'E', 'Eb', 'Em', 'Ebm',
-    'F', 'F#', 'Fm', 'F#m',
-    'G', 'Gb', 'G#', 'Gm', 'G#m', 'Gbm'
+    'A', 'Ab', 'A#', 'Am', 'A#m', 'Abm', 'A7',
+    'B', 'Bb', 'Bm', 'Bbm', 'B7',
+    'C', 'C#', 'Cm', 'C#m', 'C7',
+    'D', 'Db', 'D#', 'Dm', 'D#m', 'Dbm', 'D7',
+    'E', 'Eb', 'Em', 'Ebm', 'E7',
+    'F', 'F#', 'Fm', 'F#m', 'F7',
+    'G', 'Gb', 'G#', 'Gm', 'G#m', 'Gbm', 'G7'
 ]
 
 
@@ -46,7 +46,7 @@ def musicRemoveNumbers(text):
 
 def musicRemoveSpecialCharacter(text):
 
-    regex = re.compile(r'[-./?!,":;()\']')
+    regex = re.compile(r'[-./?!,":;()```\']')
     filtered = [i for i in text if not regex.match(i)]
     return filtered
 
@@ -98,6 +98,7 @@ def main():
             musicData = dfMusics[dfMusics['Music'] == name]
             musicTokens = musicToken(musicData['Text'])
             filteredTokens = filterMusicText(musicTokens)
+            print(musicData['Music'].values[0])
             print(filteredTokens)
         
 
