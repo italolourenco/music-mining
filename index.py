@@ -50,7 +50,7 @@ def musicRemoveSpecialCharacter(text):
     filtered = [i for i in text if not regex.match(i)]
     return filtered
 
-def musicRemoveCipher(text):
+def musicRemoveCiphers(text):
 
     wordsFiltered = []
 
@@ -65,22 +65,27 @@ def filterMusicText(text):
 
     textWithoutStopWords = musicRemoveStopWords(text)
 
-    textWithoutNumbers = musicRemoveNumbers(textWithoutStopWords)
+    textWithoutCiphers = musicRemoveCiphers(textWithoutStopWords)
+
+    textWithoutNumbers = musicRemoveNumbers(textWithoutCiphers)
 
     textWithoutSpecialCharacter = musicRemoveSpecialCharacter(textWithoutNumbers)
 
     return textWithoutSpecialCharacter
 
-def calcFreqDist(tokens):
-    freqDist = nltk.FreqDist(filtered_tokens)
-    for k,v in freqDist.items():
-        linha = k+';'+str(v)+';;;;'
-        print(linha)
+# def calcFreqDist(tokens):
+#     freqDist = nltk.FreqDist(filtered_tokens)
+#     for k,v in freqDist.items():
+#         linha = k+';'+str(v)+';;;;'
+#         print(linha)
 
 
 def main():
 
-    musicReports = [s60DataSet, s70DataSet, s80DataSet, s90DataSet, s2000DataSet, s2010DataSet]
+    # musicReports = [s60DataSet, s70DataSet, s80DataSet, s90DataSet, s2000DataSet, s2010DataSet]
+
+
+    musicReports = [s60DataSet]
 
     for musicDataSet in musicReports:
         
@@ -91,8 +96,9 @@ def main():
 
         for name in musicNames:
             musicData = dfMusics[dfMusics['Music'] == name]
-            musicToken = musicToken(musicData['Text'])
-            filteredTokens = filterMusicText(musicToken)
+            musicTokens = musicToken(musicData['Text'])
+            filteredTokens = filterMusicText(musicTokens)
+            print(filteredTokens)
         
 
 
