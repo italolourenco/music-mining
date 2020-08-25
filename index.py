@@ -3,6 +3,7 @@ import nltk
 import re
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+from nltk.stem import RSLPStemmer
 
 s60DataSet = "data/musicReport-60.csv"
 s70DataSet = "data/musicReport-70.csv"
@@ -73,17 +74,19 @@ def filterMusicText(text):
 
     return textWithoutSpecialCharacter
 
-# def calcFreqDist(tokens):
-#     freqDist = nltk.FreqDist(filtered_tokens)
-#     for k,v in freqDist.items():
-#         linha = k+';'+str(v)+';;;;'
-#         print(linha)
+def stemming(tokens):
+    stemmer = RSLPStemmer()
+    pharse = []
+
+    for word in tokens:
+        pharse.append(stemmer.stem(word))
+    
+    return pharse
 
 
 def main():
 
     # musicReports = [s60DataSet, s70DataSet, s80DataSet, s90DataSet, s2000DataSet, s2010DataSet]
-
 
     musicReports = [s60DataSet]
 
@@ -100,6 +103,8 @@ def main():
             filteredTokens = filterMusicText(musicTokens)
             print(musicData['Music'].values[0])
             print(filteredTokens)
+            print("Stemming")
+            print(stemming(filteredTokens))
         
 
 
