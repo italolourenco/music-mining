@@ -22,7 +22,6 @@ musicCipher = [
     'G', 'Gb', 'G#', 'Gm', 'G#m', 'Gbm', 'G7'
 ]
 
-
 def musicToken(text):
 
     tokens = word_tokenize(text.values[0])
@@ -75,6 +74,7 @@ def filterMusicText(text):
     return textWithoutSpecialCharacter
 
 def stemming(tokens):
+
     stemmer = RSLPStemmer()
     pharse = []
 
@@ -83,32 +83,44 @@ def stemming(tokens):
     
     return pharse
 
+def generateReports(dfMusics, clearData, stemmingData, decade):
+
+    dfClearData = pd.DataFrame(clearData, columns = ['Text'])
+    dfMusics['Text'] = dfClearData['Text']
+    dfMusics.to_csv('output/clearData/musicReport-ClearData-' + decade + '.csv', index=False)
+
+    dfStemmingData = pd.DataFrame(stemmingData, columns = ['Text'])
+    dfMusics['Text'] = dfStemmingData['Text']
+    dfMusics.to_csv('output/stemmingData/musicReport-StemmingData-' + decade + '.csv', index=False)
+
 
 def main():
 
-    # musicReports = [s60DataSet, s70DataSet, s80DataSet, s90DataSet, s2000DataSet, s2010DataSet]
-
-    musicReports = [s60DataSet]
+    musicReports = [(s60DataSet, '60'), (s70DataSet, '70'), (s80DataSet, '80'), (s90DataSet, '90'), (s2000DataSet, '2000'), (s2010DataSet, '2010')]
 
     for musicDataSet in musicReports:
-        
-        music_data = {}
 
-        dfMusics = pd.read_csv(musicDataSet, sep=';')
+        dataSetPath = musicDataSet[0]
+        decade = musicDataSet[1]
+        
+        stemmingData  = { 'Text': [] }
+        clearData = { 'Text': [] }
+
+        dfMusics = pd.read_csv(dataSetPath, sep=';')
         musicNames = list(dfMusics['Music'])
 
         for name in musicNames:
+
             musicData = dfMusics[dfMusics['Music'] == name]
             musicTokens = musicToken(musicData['Text'])
             filteredTokens = filterMusicText(musicTokens)
-            print(musicData['Music'].values[0])
-            print(filteredTokens)
-            print("Stemming")
-            print(stemming(filteredTokens))
+            stemmingTokens = stemming(filteredTokens)
+
+            clearData['Text'].append(filteredTokens)
+            stemmingData['Text'].append(stemmingTokens)
+
         
-
-
-
+        generateReports(dfMusics, clearData, stemmingData, decade)
 
 if __name__ == '__main__':
 	main()
