@@ -96,15 +96,16 @@ def generateReports(dfMusics, clearData, stemmingData, decade):
 
 def main():
 
-    musicReports = [(s60DataSet, '60'), (s70DataSet, '70'), (s80DataSet, '80'), (s90DataSet, '90'), (s2000DataSet, '2000'), (s2010DataSet, '2010')]
+    musicReports = [(s60DataSet, '60'), (s70DataSet, '70'), (s80DataSet, '80'), 
+                    (s90DataSet, '90'), (s2000DataSet, '2000'), (s2010DataSet, '2010')]
 
     for musicDataSet in musicReports:
 
         dataSetPath = musicDataSet[0]
         decade = musicDataSet[1]
         
-        stemmingData  = { 'Text': [] }
         clearData = { 'Text': [] }
+        stemmingData  = { 'Text': [] }
 
         dfMusics = pd.read_csv(dataSetPath, sep=';')
         musicNames = list(dfMusics['Music'])
