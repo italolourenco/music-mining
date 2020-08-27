@@ -38,6 +38,15 @@ def musicRemoveStopWords(text):
 
     return wordsFiltered
 
+def toLowerCase(text):
+    wordsToLowerCase = []
+
+    for word in text:
+        wordLowerCase = word.lower()
+        wordsToLowerCase.append(wordLowerCase)
+
+    return wordsToLowerCase
+
 def musicRemoveNumbers(text):
 
     regex = re.compile('[-|0-9]')
@@ -71,7 +80,9 @@ def filterMusicText(text):
 
     textWithoutSpecialCharacter = musicRemoveSpecialCharacter(textWithoutNumbers)
 
-    return textWithoutSpecialCharacter
+    textWithLowerCase = toLowerCase(textWithoutSpecialCharacter)
+
+    return textWithLowerCase
 
 def stemming(tokens):
 
