@@ -5,6 +5,9 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import RSLPStemmer
 
+from nltk.corpus import wordnet as wn
+from nltk.stem.wordnet import WordNetLemmatizer
+
 s60DataSet = "data/musicReport-60.csv"
 s70DataSet = "data/musicReport-70.csv"
 s80DataSet = "data/musicReport-80.csv"
@@ -94,7 +97,18 @@ def stemming(tokens):
     
     return pharse
 
-def generateReports(dfMusics, clearData, stemmingData, decade):
+def lemmatization(tokens):
+
+    lemaFunction = WordNetLemmatizer()
+    pharse = []
+
+    for word in tokens:
+        pharse.append(lemaFunction.lemmatize(word))
+    
+    return pharse
+
+
+def generateReports(dfMusics, clearData, stemmingData, lematizedData, decade):
 
     dfClearData = pd.DataFrame(clearData, columns = ['Text'])
     dfMusics['Text'] = dfClearData['Text']
@@ -103,6 +117,10 @@ def generateReports(dfMusics, clearData, stemmingData, decade):
     dfStemmingData = pd.DataFrame(stemmingData, columns = ['Text'])
     dfMusics['Text'] = dfStemmingData['Text']
     dfMusics.to_csv('output/stemmingData/musicReport-StemmingData-' + decade + '.csv', index=False)
+
+    dfLematizedData = pd.DataFrame(lematizedData, columns = ['Text'])
+    dfMusics['Text'] = dfLematizedData['Text']
+    dfMusics.to_csv('output/lematizedData/musicReport-LematizedData-' + decade + '.csv', index=False)
 
 
 def main():
@@ -117,6 +135,7 @@ def main():
         
         clearData = { 'Text': [] }
         stemmingData  = { 'Text': [] }
+        lematizedData = { 'Text': [] }
 
         dfMusics = pd.read_csv(dataSetPath, sep=';')
         musicNames = list(dfMusics['Music'])
@@ -126,13 +145,16 @@ def main():
             musicData = dfMusics[dfMusics['Music'] == name]
             musicTokens = musicToken(musicData['Text'])
             filteredTokens = filterMusicText(musicTokens)
+
+            lematizedTokens = lemmatization(filteredTokens)
             stemmingTokens = stemming(filteredTokens)
 
             clearData['Text'].append(filteredTokens)
             stemmingData['Text'].append(stemmingTokens)
+            lematizedData['Text'].append(lematizedTokens)
 
         
-        generateReports(dfMusics, clearData, stemmingData, decade)
+        generateReports(dfMusics, clearData, stemmingData, lematizedData, decade)
 
 if __name__ == '__main__':
 	main()
