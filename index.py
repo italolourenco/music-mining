@@ -146,6 +146,8 @@ def main():
             musicTokens = musicToken(musicData['Text'])
             filteredTokens = filterMusicText(musicTokens)
 
+            filteredTokens = musicRemoveStopWords(filteredTokens)
+
             lematizedTokens = lemmatization(filteredTokens)
             stemmingTokens = stemming(filteredTokens)
 
